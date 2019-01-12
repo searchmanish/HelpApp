@@ -128,8 +128,10 @@ public class EmailActivity extends AppCompatActivity {
                     pBar.setVisibility(View.GONE);
                     SharePreferenceUtils.getInstance().saveString("USER_otp", response.body().getInformation().getOtp());
                     SharePreferenceUtils.getInstance().saveString("USER_email", response.body().getInformation().getEmail());
+                    SharePreferenceUtils.getInstance().saveString("USER_name",response.body().getInformation().getName());
+                    SharePreferenceUtils.getInstance().saveString("USER_password",response.body().getInformation().getPassword());
 
-                    Intent intent = new Intent(EmailActivity.this, EmailVerifyActivity.class);
+                    Intent intent = new Intent(EmailActivity.this, MailVerifyActivity.class);
                     intent.putExtra("email", mEmail);
                     intent.putExtra("otp", val);
                     startActivity(intent);

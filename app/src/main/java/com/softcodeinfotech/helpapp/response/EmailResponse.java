@@ -63,6 +63,12 @@ public class EmailResponse {
         @SerializedName("otp")
         @Expose
         private String otp;
+        @SerializedName("name")
+        @Expose
+        private String name;
+        @SerializedName("password")
+        @Expose
+        private String password;
 
         public String getEmail() {
             return email;
@@ -87,6 +93,32 @@ public class EmailResponse {
 
         public Information withOtp(String otp) {
             this.otp = otp;
+            return this;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Information withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public Information withPassword(String password) {
+            this.password = password;
             return this;
         }
 
