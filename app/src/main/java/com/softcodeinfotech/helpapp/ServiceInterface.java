@@ -2,6 +2,7 @@ package com.softcodeinfotech.helpapp;
 
 
 import com.softcodeinfotech.helpapp.response.EmailResponse;
+import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
 import com.softcodeinfotech.helpapp.response.PasswordResponse;
 import com.softcodeinfotech.helpapp.response.ProfileResponse;
 import com.softcodeinfotech.helpapp.response.ProfileupdateResponse;
@@ -68,6 +69,15 @@ public interface ServiceInterface {
              @Part("pin") RequestBody pin
             // @Part("profilestatus") RequestBody profilestatus
      );
+
+     //forgotpassword
+
+    @Multipart
+    @POST("helpapp/forgotpassword.php")
+    Call<ForgotpassResponse> forgotPassword(
+
+            @Part("email") RequestBody email
+    );
 
 
 }

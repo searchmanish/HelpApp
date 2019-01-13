@@ -36,16 +36,13 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ForgotPassword" />
+        <activity android:name=".ForgotPassword"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MailVerifyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProfilesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".ProfilesActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>
