@@ -1,5 +1,6 @@
 package com.softcodeinfotech.helpapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -126,6 +127,9 @@ public class ProfilesActivity extends AppCompatActivity {
                     SharePreferenceUtils.getInstance().saveString("USER_state", response.body().getInformation().getState());
                     SharePreferenceUtils.getInstance().saveString("USER_pin", response.body().getInformation().getPin());
 
+                    Intent intent = new Intent(ProfilesActivity.this,setProfileImageActivity.class);
+                    startActivity(intent);
+                    finish();
 
                 }
             }

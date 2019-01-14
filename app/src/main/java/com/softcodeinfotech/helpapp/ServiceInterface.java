@@ -3,6 +3,7 @@ package com.softcodeinfotech.helpapp;
 
 import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
+import com.softcodeinfotech.helpapp.response.ImageResponse;
 import com.softcodeinfotech.helpapp.response.PasswordResponse;
 import com.softcodeinfotech.helpapp.response.ProfileResponse;
 import com.softcodeinfotech.helpapp.response.ProfileupdateResponse;
@@ -78,6 +79,14 @@ public interface ServiceInterface {
 
             @Part("email") RequestBody email
     );
+
+//image upload
+    @Multipart
+    @POST("helpapp/image.php")
+    Call<ImageResponse> uploadImage
+            (@Part("image\"; filename=\"myfile.jpg\" ") RequestBody file,
+             @Part("name") RequestBody desc,
+             @Part("email") RequestBody email);
 
 
 }

@@ -107,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.body().getStatus() == 1) {
                     pBar.setVisibility(View.GONE);
                     //Toast.makeText(LoginActivity.this, "userid"+response.body().getInformation().getUserId(), Toast.LENGTH_SHORT).show();
+
+
                     Intent homeIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(homeIntent);
                     finish();

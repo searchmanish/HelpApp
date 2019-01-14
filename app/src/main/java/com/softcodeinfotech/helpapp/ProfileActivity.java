@@ -114,12 +114,13 @@ public class ProfileActivity extends AppCompatActivity {
                     SharePreferenceUtils.getInstance().saveString("USER_gender", response.body().getInformation().getGender());
                     SharePreferenceUtils.getInstance().saveString("USER_mobile", response.body().getInformation().getMobile());
 
-                    Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                    Toast.makeText(ProfileActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(ProfileActivity.this,setProfileImageActivity.class);
                     startActivity(intent);
                     finish();
 
 
-                    Toast.makeText(ProfileActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
