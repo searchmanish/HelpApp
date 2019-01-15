@@ -90,6 +90,10 @@ public class ProfileResponse{
         @Expose
         private Integer profilestatus;
 
+        @SerializedName("u_id")
+        @Expose
+        private Integer uId;
+
         public String getEmail() {
             return email;
         }
@@ -230,6 +234,19 @@ public class ProfileResponse{
 
         public Information withProfilestatus(Integer profilestatus) {
             this.profilestatus = profilestatus;
+            return this;
+        }
+
+        public Integer getUId() {
+            return uId;
+        }
+
+        public void setUId(Integer uId) {
+            this.uId = uId;
+        }
+
+        public Information withUId(Integer uId) {
+            this.uId = uId;
             return this;
         }
     }

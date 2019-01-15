@@ -3,9 +3,8 @@
     package="com.softcodeinfotech.helpapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:name=".MyApp"
@@ -22,9 +21,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".EmailVerifyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
@@ -46,10 +42,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ProfilesActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".setProfileImageActivity">
-
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".SetProfileImageActivity" />
+        <activity android:name=".MyProfileActivity" />
+        <activity android:name=".KycActivity"></activity>
     </application>
 
 </manifest>

@@ -21,5 +21,12 @@ public class Constant {
     public static final String USER_date = "USER_date";
     public static final String USER_otp = "USER_otp";
     public static final String USER_mobile="USER_mobile";
+    public static  final String USER_imageurl="USER_imageurl";
+    public static final String USER_aadhar="USER_aadhar";
+    public static  final String USER_address="USER_address";
+    public static final String USER_state="USER_state";
+    public static final String USER_pin ="USER_pin";
+    public static final String USER_profilestatus="USER_profilestatus";
+
 
 }

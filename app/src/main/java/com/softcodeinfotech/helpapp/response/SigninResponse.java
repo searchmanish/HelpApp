@@ -76,6 +76,21 @@ public class SigninResponse {
         @SerializedName("profilestatus")
         @Expose
         private String profilestatus;
+        @SerializedName("aadhar")
+        @Expose
+        private String aadhar;
+        @SerializedName("address")
+        @Expose
+        private String address;
+        @SerializedName("state")
+        @Expose
+        private String state;
+        @SerializedName("pin")
+        @Expose
+        private String pin;
+        @SerializedName("image_url")
+        @Expose
+        private String imageUrl;
 
         public Integer getUserId() {
             return userId;
@@ -165,6 +180,71 @@ public class SigninResponse {
 
         public Information withProfilestatus(String profilestatus) {
             this.profilestatus = profilestatus;
+            return this;
+        }
+
+        public String getAadhar() {
+            return aadhar;
+        }
+
+        public void setAadhar(String aadhar) {
+            this.aadhar = aadhar;
+        }
+
+        public Information withAadhar(String aadhar) {
+            this.aadhar = aadhar;
+            return this;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public Information withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public Information withState(String state) {
+            this.state = state;
+            return this;
+        }
+
+        public String getPin() {
+            return pin;
+        }
+
+        public void setPin(String pin) {
+            this.pin = pin;
+        }
+
+        public Information withPin(String pin) {
+            this.pin = pin;
+            return this;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
+
+        public Information withImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
             return this;
         }
 

@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.softcodeinfotech.helpapp.response.SigninResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.DataValidation;
+import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     pBar.setVisibility(View.VISIBLE);
 
                     signinReq();
-                    Toast.makeText(LoginActivity.this, "" + mEmail + " " + mPassword, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(LoginActivity.this, "" + mEmail + " " + mPassword, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -104,16 +105,30 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<SigninResponse>() {
             @Override
             public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
-                if (response.body().getStatus() == 1) {
+                if (response.body().getStatus().equals(1)) {
                     pBar.setVisibility(View.GONE);
                     //Toast.makeText(LoginActivity.this, "userid"+response.body().getInformation().getUserId(), Toast.LENGTH_SHORT).show();
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_id, String.valueOf(response.body().getInformation().getUserId()));
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getInformation().getEmail());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getInformation().getName());
+                    SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getInformation().getAge());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getInformation().getGender());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_mobile, response.body().getInformation().getMobile());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_aadhar, response.body().getInformation().getAadhar());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_address, response.body().getInformation().getAddress());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_state, response.body().getInformation().getState());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_pin, response.body().getInformation().getPin());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_imageurl, response.body().getInformation().getImageUrl());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_profilestatus, response.body().getInformation().getProfilestatus());
+                    // SharePreferenceUtils.getInstance().saveString(Constant.USER);
 
 
                     Intent homeIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(homeIntent);
                     finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+                    pBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "Invalid Details found", Toast.LENGTH_SHORT).show();
                 }
             }
 

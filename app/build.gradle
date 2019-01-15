@@ -39,6 +39,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.developer-shivam:Crescento:1.2.1'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     //image compressing library
     implementation 'id.zelory:compressor:2.1.0'

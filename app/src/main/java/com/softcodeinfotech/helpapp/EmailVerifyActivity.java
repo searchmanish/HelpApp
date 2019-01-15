@@ -114,7 +114,7 @@ public class EmailVerifyActivity extends AppCompatActivity {
                 if (response.body().getStatus() == 1) {
                     Toast.makeText(EmailVerifyActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(EmailVerifyActivity.this, ProfileActivity.class);
+                    Intent intent = new Intent(EmailVerifyActivity.this, ProfilesActivity.class);
                     startActivity(intent);
                     finish();
                 }

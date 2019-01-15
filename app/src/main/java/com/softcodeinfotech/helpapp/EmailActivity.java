@@ -75,7 +75,7 @@ public class EmailActivity extends AppCompatActivity {
         alreadymember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signinIntent = new Intent(EmailActivity.this,LoginActivity.class);
+                Intent signinIntent = new Intent(EmailActivity.this, LoginActivity.class);
                 startActivity(signinIntent);
                 finish();
             }
@@ -100,7 +100,7 @@ public class EmailActivity extends AppCompatActivity {
                 } else {
                     int randomPIN = (int) (Math.random() * 9000) + 1000;
                     val = "" + randomPIN;
-                     pBar.setVisibility(View.VISIBLE);
+                    pBar.setVisibility(View.VISIBLE);
                     sendDataReq();
 
 
@@ -128,8 +128,8 @@ public class EmailActivity extends AppCompatActivity {
                     pBar.setVisibility(View.GONE);
                     SharePreferenceUtils.getInstance().saveString("USER_otp", response.body().getInformation().getOtp());
                     SharePreferenceUtils.getInstance().saveString("USER_email", response.body().getInformation().getEmail());
-                    SharePreferenceUtils.getInstance().saveString("USER_name",response.body().getInformation().getName());
-                    SharePreferenceUtils.getInstance().saveString("USER_password",response.body().getInformation().getPassword());
+                    SharePreferenceUtils.getInstance().saveString("USER_name", response.body().getInformation().getName());
+                    SharePreferenceUtils.getInstance().saveString("USER_password", response.body().getInformation().getPassword());
 
                     Intent intent = new Intent(EmailActivity.this, MailVerifyActivity.class);
                     intent.putExtra("email", mEmail);
@@ -138,7 +138,7 @@ public class EmailActivity extends AppCompatActivity {
                     finish();
 
 
-                    Toast.makeText(EmailActivity.this, "" + response.body().getMsg() + " " + val, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(EmailActivity.this, "" + response.body().getMsg() + " " + val, Toast.LENGTH_SHORT).show();
                 } else {
                     pBar.setVisibility(View.GONE);
 

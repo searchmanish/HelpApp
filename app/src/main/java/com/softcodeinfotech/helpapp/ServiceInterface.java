@@ -1,6 +1,7 @@
 package com.softcodeinfotech.helpapp;
 
 
+import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
 import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
 import com.softcodeinfotech.helpapp.response.ImageResponse;
@@ -87,6 +88,17 @@ public interface ServiceInterface {
             (@Part("image\"; filename=\"myfile.jpg\" ") RequestBody file,
              @Part("name") RequestBody desc,
              @Part("email") RequestBody email);
+
+
+//Aadhar update
+    @Multipart
+    @POST("helpapp/aadharUpdate.php")
+    Call<AadharUpdateResponse> aadharUpdate
+    (
+            @Part("email") RequestBody email,
+            @Part ("aadhar") RequestBody aadhar
+    );
+
 
 
 }

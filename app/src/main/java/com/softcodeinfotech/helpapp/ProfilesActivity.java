@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -104,9 +105,9 @@ public class ProfilesActivity extends AppCompatActivity {
                 //pBar.setVisibility(View.VISIBLE);
                 getData();
                 saveDataReq();
-                Toast.makeText(ProfilesActivity.this, "" + mAadhar + "" + mAge + "" + mMobile + "" + mAddress, Toast.LENGTH_LONG).show();
-                Toast.makeText(ProfilesActivity.this, "" + mGender, Toast.LENGTH_SHORT).show();
-                Toast.makeText(ProfilesActivity.this, "" + mPin + "" + mState, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ProfilesActivity.this, "" + mAadhar + "" + mAge + "" + mMobile + "" + mAddress, Toast.LENGTH_LONG).show();
+                // Toast.makeText(ProfilesActivity.this, "" + mGender, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ProfilesActivity.this, "" + mPin + "" + mState, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,15 +120,31 @@ public class ProfilesActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.body().getStatus() == 1) {
-                    SharePreferenceUtils.getInstance().saveString("USER_name", response.body().getInformation().getName());
+                   /* SharePreferenceUtils.getInstance().saveString("USER_name", response.body().getInformation().getName());
                     SharePreferenceUtils.getInstance().saveString("USER_age", response.body().getInformation().getAge());
                     SharePreferenceUtils.getInstance().saveString("USER_gender", response.body().getInformation().getGender());
                     SharePreferenceUtils.getInstance().saveString("USER_mobile", response.body().getInformation().getMobile());
                     SharePreferenceUtils.getInstance().saveString("USER_address", response.body().getInformation().getAddress());
                     SharePreferenceUtils.getInstance().saveString("USER_state", response.body().getInformation().getState());
-                    SharePreferenceUtils.getInstance().saveString("USER_pin", response.body().getInformation().getPin());
+                    SharePreferenceUtils.getInstance().saveString("USER_pin", response.body().getInformation().getPin());*/
 
-                    Intent intent = new Intent(ProfilesActivity.this,setProfileImageActivity.class);
+
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_id, String.valueOf(response.body().getInformation().getUId()));
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getInformation().getEmail());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getInformation().getName());
+                    SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getInformation().getAge());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getInformation().getGender());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_mobile, response.body().getInformation().getMobile());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_aadhar, response.body().getInformation().getAadhar());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_address, response.body().getInformation().getAddress());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_state, response.body().getInformation().getState());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_pin, response.body().getInformation().getPin());
+                    //SharePreferenceUtils.getInstance().saveString(Constant.USER_imageurl, response.body().getInformation().getImageUrl());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_profilestatus, String.valueOf(response.body().getInformation().getProfilestatus()));
+
+                    Log.i("uid",response.body().getInformation().getUId().toString());
+
+                    Intent intent = new Intent(ProfilesActivity.this, SetProfileImageActivity.class);
                     startActivity(intent);
                     finish();
 
@@ -136,7 +153,7 @@ public class ProfilesActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                Toast.makeText(ProfilesActivity.this, ""+t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfilesActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });

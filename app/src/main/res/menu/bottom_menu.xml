@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/helpMe"
+        android:title="Help Me"
+        android:icon="@drawable/ic_circular"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+        />
+
+   <item
+        android:id="@+id/helpersList"
+        android:title="Helpers List"
+        android:icon="@drawable/ic_circular"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        />
+
+    <!--<item
+        android:id="@+id/test"
+        android:title="My Test"
+        android:icon="@drawable/ic_test_1"
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        />-->
+
+</menu>

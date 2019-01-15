@@ -41,7 +41,7 @@ public class MailVerifyActivity extends AppCompatActivity {
                 if (otp.getText().toString().isEmpty()) {
                     Toast.makeText(MailVerifyActivity.this, "Enter otp first", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (otp.getText().toString().equals(intentOtp) ) {
+                    if (otp.getText().toString().equals(intentOtp)) {
                         Intent profileIntent = new Intent(MailVerifyActivity.this, ProfilesActivity.class);
                         startActivity(profileIntent);
                         finish();
