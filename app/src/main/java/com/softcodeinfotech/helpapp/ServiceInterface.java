@@ -6,6 +6,7 @@ import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
 import com.softcodeinfotech.helpapp.response.ImageResponse;
 import com.softcodeinfotech.helpapp.response.PasswordResponse;
+import com.softcodeinfotech.helpapp.response.PasswordUpdateResponse;
 import com.softcodeinfotech.helpapp.response.ProfileResponse;
 import com.softcodeinfotech.helpapp.response.ProfileupdateResponse;
 import com.softcodeinfotech.helpapp.response.SigninResponse;
@@ -99,6 +100,14 @@ public interface ServiceInterface {
             @Part ("aadhar") RequestBody aadhar
     );
 
+    //Password update
+
+    @Multipart
+    @POST("helpapp/passwordUpdate.php")
+      Call<PasswordUpdateResponse> passwordUpdate(
+              @Part("email") RequestBody email,
+              @Part("password") RequestBody password
+    );
 
 
 }

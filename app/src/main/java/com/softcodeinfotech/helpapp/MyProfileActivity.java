@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
@@ -39,7 +40,12 @@ public class MyProfileActivity extends AppCompatActivity {
         email.setText(mEmail);
         ageAndGender.setText(mAge+"    |    "+mGender);
 
-        Glide.with(this).load(url).into(image);
+        //for default placeholder image in glide
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.bgp);
+        requestOptions.error(R.drawable.bgp);
+
+        Glide.with(this).setDefaultRequestOptions(requestOptions).load(url).into(image);
     }
 
     private void setUpWidget() {

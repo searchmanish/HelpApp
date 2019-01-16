@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
@@ -53,10 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Toast.makeText(this, ""+email+""+name+""+""+age+""+gender+""+mobile, Toast.LENGTH_SHORT).show();
 
+        //for default placeholder image in glide
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.bgp);
+        requestOptions.error(R.drawable.bgp);
 
         dName.setText(name);
         dEmail.setText(email);
-        Glide.with(this).load(imageurl).into(image);
+        Glide.with(this).setDefaultRequestOptions(requestOptions).load(imageurl).into(image);
+
 
 
         toggle.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent kycIntent = new Intent(MainActivity.this,KycActivity.class);
                 startActivity(kycIntent);
                 drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent accountIntent = new Intent(MainActivity.this,AccountActivity.class);
+                startActivity(accountIntent);
+                drawer.closeDrawer(GravityCompat.START);
+
             }
         });
 

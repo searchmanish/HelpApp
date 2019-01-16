@@ -45,7 +45,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".SetProfileImageActivity" />
         <activity android:name=".MyProfileActivity" />
-        <activity android:name=".KycActivity"></activity>
+        <activity android:name=".KycActivity" />
+        <activity android:name=".AccountActivity"></activity>
     </application>
 
 </manifest>
