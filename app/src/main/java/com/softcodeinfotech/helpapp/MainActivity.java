@@ -3,6 +3,7 @@ package com.softcodeinfotech.helpapp;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton settings;
     ImageView image;
     TextView dName, dEmail;
+    FloatingActionButton fabButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(accountIntent);
                 drawer.closeDrawer(GravityCompat.START);
 
+            }
+        });
+
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent addHelpIntent = new Intent(MainActivity.this,AddHelpActivity.class);
+                startActivity(addHelpIntent);
             }
         });
 
@@ -257,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
         kyc = findViewById(R.id.textView59);
         account = findViewById(R.id.textView62);
         // settings = findViewById(R.id.imageButton6);
+        fabButton = findViewById(R.id.floatingActionButton3);
 
         //drawer design
         image = findViewById(R.id.imageView1);

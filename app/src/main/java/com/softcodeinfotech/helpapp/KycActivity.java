@@ -28,7 +28,7 @@ public class KycActivity extends AppCompatActivity {
     Button update;
     TextInputEditText aadharNumber;
     ProgressBar pBar;
-    String mAadhar,mEmail,mkyc;
+    String mAadhar, mEmail, mkyc;
 
     Retrofit retrofit;
     ServiceInterface serviceInterface;
@@ -55,7 +55,7 @@ public class KycActivity extends AppCompatActivity {
 
         serviceInterface = retrofit.create(ServiceInterface.class);
 
-        Toast.makeText(this, ""+mEmail, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, ""+mEmail, Toast.LENGTH_SHORT).show();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,13 +69,11 @@ public class KycActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getData();
                 pBar.setVisibility(View.VISIBLE);
-                if (mAadhar.isEmpty())
-                {
+                if (mAadhar.isEmpty()) {
                     Toast.makeText(KycActivity.this, "Fill Data First", Toast.LENGTH_SHORT).show();
-                } else
-                {
+                } else {
                     pBar.setVisibility(View.VISIBLE);
-                     sendDataReq();
+                    sendDataReq();
                 }
             }
         });
@@ -83,26 +81,24 @@ public class KycActivity extends AppCompatActivity {
 
     private void sendDataReq() {
 
-        Call<AadharUpdateResponse> call = serviceInterface.aadharUpdate(convertPlainString(mEmail),convertPlainString(mAadhar));
+        Call<AadharUpdateResponse> call = serviceInterface.aadharUpdate(convertPlainString(mEmail), convertPlainString(mAadhar));
         call.enqueue(new Callback<AadharUpdateResponse>() {
             @Override
             public void onResponse(Call<AadharUpdateResponse> call, Response<AadharUpdateResponse> response) {
                 pBar.setVisibility(View.GONE);
-                if (response.body().getStatus().equals(1))
-                {
-                    Toast.makeText(KycActivity.this, ""+response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                    SharePreferenceUtils.getInstance().saveString(Constant.USER_aadhar,response.body().getInformation().getAadhar());
+                if (response.body().getStatus().equals(1)) {
+                    Toast.makeText(KycActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_aadhar, response.body().getInformation().getAadhar());
 
-                } else
-                {
-                    Toast.makeText(KycActivity.this, ""+response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(KycActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AadharUpdateResponse> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
-                Toast.makeText(KycActivity.this, ""+t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(KycActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
 
 
             }

@@ -4,6 +4,8 @@ package com.softcodeinfotech.helpapp;
 import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
 import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
+import com.softcodeinfotech.helpapp.response.GetCategoryResponse;
+import com.softcodeinfotech.helpapp.response.HelpDataInsertResponse;
 import com.softcodeinfotech.helpapp.response.ImageResponse;
 import com.softcodeinfotech.helpapp.response.PasswordResponse;
 import com.softcodeinfotech.helpapp.response.PasswordUpdateResponse;
@@ -46,7 +48,7 @@ public interface ServiceInterface {
             @Part("mobile") RequestBody mobile,
             @Part("profilestatus") RequestBody profilestatus
 
-            );
+    );
 
     @Multipart
     @POST("helpapp/user_signin.php")
@@ -56,24 +58,23 @@ public interface ServiceInterface {
     );
 
 
-
-     @Multipart
+    @Multipart
     @POST("helpapp/profile_update.php")
     Call<ProfileResponse> profileUpdate(
 
-             @Part("email") RequestBody email,
-             @Part("name") RequestBody name,
-             @Part("age") RequestBody age,
-             @Part("gender") RequestBody gender,
-             @Part("mobile") RequestBody mobile,
-             @Part("aadhar") RequestBody aadhar,
-             @Part("address") RequestBody address,
-             @Part("state") RequestBody state,
-             @Part("pin") RequestBody pin
+            @Part("email") RequestBody email,
+            @Part("name") RequestBody name,
+            @Part("age") RequestBody age,
+            @Part("gender") RequestBody gender,
+            @Part("mobile") RequestBody mobile,
+            @Part("aadhar") RequestBody aadhar,
+            @Part("address") RequestBody address,
+            @Part("state") RequestBody state,
+            @Part("pin") RequestBody pin
             // @Part("profilestatus") RequestBody profilestatus
-     );
+    );
 
-     //forgotpassword
+    //forgotpassword
 
     @Multipart
     @POST("helpapp/forgotpassword.php")
@@ -82,31 +83,50 @@ public interface ServiceInterface {
             @Part("email") RequestBody email
     );
 
-//image upload
+    //image upload
     @Multipart
     @POST("helpapp/image.php")
     Call<ImageResponse> uploadImage
-            (@Part("image\"; filename=\"myfile.jpg\" ") RequestBody file,
-             @Part("name") RequestBody desc,
-             @Part("email") RequestBody email);
+    (@Part("image\"; filename=\"myfile.jpg\" ") RequestBody file,
+     @Part("name") RequestBody desc,
+     @Part("email") RequestBody email);
 
 
-//Aadhar update
+    //Aadhar update
     @Multipart
     @POST("helpapp/aadharUpdate.php")
     Call<AadharUpdateResponse> aadharUpdate
     (
             @Part("email") RequestBody email,
-            @Part ("aadhar") RequestBody aadhar
+            @Part("aadhar") RequestBody aadhar
     );
 
     //Password update
 
     @Multipart
     @POST("helpapp/passwordUpdate.php")
-      Call<PasswordUpdateResponse> passwordUpdate(
-              @Part("email") RequestBody email,
-              @Part("password") RequestBody password
+    Call<PasswordUpdateResponse> passwordUpdate(
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password
+    );
+
+
+    //get category
+    @Multipart
+    @POST("helpapp/getCategory.php")
+    Call<GetCategoryResponse> getCategory(
+            @Part("securecode") RequestBody securecode
+    );
+
+    //helpData Insertion
+    @Multipart
+    @POST("helpapp/helpdataInsert.php")
+    Call<HelpDataInsertResponse> helpDataInsert(
+            @Part("user_id") RequestBody user_id,
+            @Part("help_title") RequestBody help_title,
+            @Part("help_description") RequestBody help_description,
+            @Part("help_category_id") RequestBody help_category_id,
+            @Part("state") RequestBody state
     );
 
 

@@ -47,5 +47,9 @@ dependencies {
     //image compressing library
     implementation 'id.zelory:compressor:2.1.0'
 
+    //Dexter permission
+    implementation 'com.karumi:dexter:5.0.0'
+//
+
 
 }

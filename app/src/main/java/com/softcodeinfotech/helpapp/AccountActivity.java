@@ -58,7 +58,7 @@ public class AccountActivity extends AppCompatActivity {
         serviceInterface = retrofit.create(ServiceInterface.class);
 
         mEmail = SharePreferenceUtils.getInstance().getString(Constant.USER_email);
-       // Toast.makeText(this, "" + mEmail, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "" + mEmail, Toast.LENGTH_SHORT).show();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

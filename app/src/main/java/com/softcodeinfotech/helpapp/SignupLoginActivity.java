@@ -32,7 +32,7 @@ public class SignupLoginActivity extends AppCompatActivity {
 
                 Intent loginIntent = new Intent(SignupLoginActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
-                //finish();
+                finish();
 
             }
         });

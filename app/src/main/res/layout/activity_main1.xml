@@ -52,20 +52,22 @@
         <TextView
             android:id="@+id/textView28"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="43dp"
+            android:layout_marginBottom="403dp"
             android:background="#f2f2f2"
+            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/imageButton5"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_notification_3"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/textView27"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView27" />
@@ -73,28 +75,28 @@
         <TextView
             android:id="@+id/textView54"
             android:layout_width="14dp"
-            android:visibility="gone"
             android:layout_height="14dp"
             android:background="@drawable/orange_round_background"
             android:gravity="center"
             android:text="10"
             android:textColor="#ffffff"
             android:textSize="10sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/imageButton5"
             app:layout_constraintTop_toTopOf="@+id/imageButton5" />
 
         <ImageButton
             android:id="@+id/imageButton6"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@drawable/ic_gear"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/imageButton5"
             app:layout_constraintEnd_toStartOf="@+id/imageButton5"
             app:layout_constraintTop_toTopOf="@+id/imageButton5" />
 
-        <LinearLayout
+        <!--  <LinearLayout
             android:id="@+id/replace"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -103,24 +105,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView28">
-
-        </LinearLayout>
+        </LinearLayout>-->
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:background="#ffffff"
-            app:menu="@menu/bottom_menu"
             app:itemIconTint="@drawable/color_switch"
             app:itemTextColor="@drawable/color_switch"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_menu" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="80dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView28"
+            app:srcCompat="@drawable/fab" />
 
     </android.support.constraint.ConstraintLayout>
 
-    <include
+   <include
         layout="@layout/drawer_menu"
         android:layout_height="match_parent"
         android:layout_width="300dp"
