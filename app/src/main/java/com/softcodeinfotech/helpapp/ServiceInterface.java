@@ -6,6 +6,7 @@ import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
 import com.softcodeinfotech.helpapp.response.GetCategoryResponse;
 import com.softcodeinfotech.helpapp.response.HelpDataInsertResponse;
+import com.softcodeinfotech.helpapp.response.HelpHistoryResponse;
 import com.softcodeinfotech.helpapp.response.ImageResponse;
 import com.softcodeinfotech.helpapp.response.PasswordResponse;
 import com.softcodeinfotech.helpapp.response.PasswordUpdateResponse;
@@ -31,6 +32,8 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );
 
+
+    //not used to be removed
     @Multipart
     @POST("helpapp/savepassword.php")
     Call<PasswordResponse> savePassword(
@@ -38,6 +41,7 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );
 
+   //not used to be removed
     @Multipart
     @POST("helpapp/profileupdate.php")
     Call<ProfileupdateResponse> saveProfile(
@@ -128,6 +132,16 @@ public interface ServiceInterface {
             @Part("help_category_id") RequestBody help_category_id,
             @Part("state") RequestBody state
     );
+
+    //get History
+
+    @Multipart
+    @POST("helpapp/help_history.php")
+    Call<HelpHistoryResponse> getHelpHistory(
+            @Part("user_id") RequestBody user_id
+    );
+
+
 
 
 }

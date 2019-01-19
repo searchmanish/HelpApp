@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     TextView profile, kyc, orders;
     BottomNavigationView bottom;
     TextView toolbar;
-    TextView account;
+    TextView account,myHistory;
     ImageButton settings;
     ImageView image;
     TextView dName, dEmail;
@@ -99,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(accountIntent);
                 drawer.closeDrawer(GravityCompat.START);
 
+            }
+        });
+        myHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myhistoryIntent = new Intent(MainActivity.this,HistoryActivity.class);
+                startActivity(myhistoryIntent);
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 
@@ -267,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.textView27);
         kyc = findViewById(R.id.textView59);
         account = findViewById(R.id.textView62);
+        myHistory = findViewById(R.id.textView60);
         // settings = findViewById(R.id.imageButton6);
         fabButton = findViewById(R.id.floatingActionButton3);
 

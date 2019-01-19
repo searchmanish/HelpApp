@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MyApp"
@@ -19,8 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="allowBackup,supportsRtl"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
+        tools:replace="allowBackup,supportsRtl">
         <activity android:name=".MainActivity" />
         <activity
             android:name=".EmailActivity"
@@ -33,8 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SignupLoginActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ForgotPassword"
             android:screenOrientation="portrait" />
@@ -44,17 +43,23 @@
         <activity
             android:name=".ProfilesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SetProfileImageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MyProfileActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".KycActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AccountActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AddHelpActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SetProfileImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".KycActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddHelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,6 +67,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HistoryActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

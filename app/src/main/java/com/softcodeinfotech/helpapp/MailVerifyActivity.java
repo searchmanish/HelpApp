@@ -28,6 +28,8 @@ public class MailVerifyActivity extends AppCompatActivity {
         intentEmail = SharePreferenceUtils.getInstance().getString("USER_email");
         intentOtp = SharePreferenceUtils.getInstance().getString("USER_otp");
 
+        Toast.makeText(this, ""+intentOtp, Toast.LENGTH_SHORT).show();
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
