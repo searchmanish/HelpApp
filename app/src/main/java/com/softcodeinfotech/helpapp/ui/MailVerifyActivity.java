@@ -1,4 +1,4 @@
-package com.softcodeinfotech.helpapp;
+package com.softcodeinfotech.helpapp.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
 public class MailVerifyActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class MailVerifyActivity extends AppCompatActivity {
         intentEmail = SharePreferenceUtils.getInstance().getString("USER_email");
         intentOtp = SharePreferenceUtils.getInstance().getString("USER_otp");
 
-        Toast.makeText(this, ""+intentOtp, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, ""+intentOtp, Toast.LENGTH_SHORT).show();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

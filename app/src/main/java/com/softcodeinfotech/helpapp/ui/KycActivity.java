@@ -1,4 +1,4 @@
-package com.softcodeinfotech.helpapp;
+package com.softcodeinfotech.helpapp.ui;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.softcodeinfotech.helpapp.R;
+import com.softcodeinfotech.helpapp.ServiceInterface;
 import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;

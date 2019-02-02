@@ -1,31 +1,52 @@
-package com.softcodeinfotech.helpapp;
+package com.softcodeinfotech.helpapp.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.softcodeinfotech.helpapp.R;
+import com.softcodeinfotech.helpapp.ServiceInterface;
+import com.softcodeinfotech.helpapp.adapter.GetHelpListAdapter;
+import com.softcodeinfotech.helpapp.model.GetHelpListModel;
+import com.softcodeinfotech.helpapp.response.GethelplistResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
+import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity {
 
-    String email, name, age, gender, mobile, imageurl,uid;
+    String email, name, age, gender, mobile, imageurl,uid,state;
 
     DrawerLayout drawer;
     ImageButton toggle;
@@ -37,6 +58,17 @@ public class MainActivity extends AppCompatActivity {
     ImageView image;
     TextView dName, dEmail;
     FloatingActionButton fabButton;
+
+    //RecylerView
+    ProgressBar pBar;
+
+    Retrofit retrofit;
+    ServiceInterface serviceInterface;
+
+    String TAG = "MainActivity";
+    private  RecyclerView replaceRecyler;
+    private ArrayList<GetHelpListModel> mHelpDetailsList = new ArrayList<GetHelpListModel>();
+    private GetHelpListAdapter getHelpListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         mobile = SharePreferenceUtils.getInstance().getString(Constant.USER_mobile);
         imageurl = SharePreferenceUtils.getInstance().getString(Constant.USER_imageurl);
         uid = SharePreferenceUtils.getInstance().getString(Constant.USER_id);
+
+
+
+
       //  Toast.makeText(this, ""+uid, Toast.LENGTH_SHORT).show();
 
 
@@ -64,6 +100,31 @@ public class MainActivity extends AppCompatActivity {
         dName.setText(name);
         dEmail.setText(email);
         Glide.with(this).setDefaultRequestOptions(requestOptions).load(imageurl).into(image);
+
+        //
+        pBar.setVisibility(View.VISIBLE);
+
+
+        Gson gson = new GsonBuilder().create();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        serviceInterface = retrofit.create(ServiceInterface.class);
+
+        state = SharePreferenceUtils.getInstance().getString(Constant.USER_state);
+       // Toast.makeText(this, ""+state, Toast.LENGTH_SHORT).show();
+        Log.v( "state", state);
+
+        // replaceRecyler = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager mLayoutManger = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        replaceRecyler.setLayoutManager(mLayoutManger);
+        replaceRecyler.setItemAnimator(new DefaultItemAnimator());
+
+        getHelpListAdapter = new GetHelpListAdapter(this, mHelpDetailsList, GetScreenWidth());
+        replaceRecyler.setAdapter(getHelpListAdapter);
+        replaceRecyler.setItemAnimator(new DefaultItemAnimator());
+        getHelpListReq();
 
 
 
@@ -245,13 +306,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.helpMe:
                         toolbar.setText("Help Me");
-                        Toast.makeText(MainActivity.this, "help me", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(MainActivity.this, "help me", Toast.LENGTH_SHORT).show();
                        // return true;
                         break;
 
                     case  R.id.helpersList:
                         toolbar.setText("Helpers List");
-                        Toast.makeText(MainActivity.this, "Helpers List", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this,AllHelperActivity.class);
+                        startActivity(intent);
+                      //  Toast.makeText(MainActivity.this, "Helpers List", Toast.LENGTH_SHORT).show();
                           break;
 
 
@@ -261,6 +324,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+        });
+
+    }
+
+    private void getHelpListReq() {
+        Call<GethelplistResponse> call = serviceInterface.getHelpLitstItem(convertPlainString(state));
+        call.enqueue(new Callback<GethelplistResponse>() {
+            @Override
+            public void onResponse(Call<GethelplistResponse> call, Response<GethelplistResponse> response) {
+                if (response.body().getStatus().equals(1))
+                {
+                    pBar.setVisibility(View.GONE);
+                    for (int i = 0; i < response.body().getInformation().size(); i++)
+                    {
+                        mHelpDetailsList.add(new GetHelpListModel(response.body().getInformation().get(i).getHelpTitle(),
+                                String.valueOf(response.body().getInformation().get(i).getTimestamp()),
+                                response.body().getInformation().get(i).getHelpDescription()
+                                , String.valueOf(response.body().getInformation().get(i).getHelpCategoryId()),
+                                response.body().getInformation().get(i).getStatus()
+                                , response.body().getInformation().get(i).getState(),
+                                String.valueOf( response.body().getInformation().get(i).getUserId())));
+                    }
+                    getHelpListAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GethelplistResponse> call, Throwable t) {
+                pBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, ""+t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
         });
 
     }
@@ -283,6 +378,10 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.imageView1);
         dName = findViewById(R.id.textView55);
         dEmail = findViewById(R.id.textView56);
+
+        //recyler
+        replaceRecyler = findViewById(R.id.replaceRecycler);
+        pBar = findViewById(R.id.pBar);
     }
 
 
@@ -293,5 +392,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             drawer.openDrawer(GravityCompat.START);
         }
+    }
+
+    //
+    private int GetScreenWidth() {
+        int width = 100;
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        width = displayMetrics.widthPixels;
+
+        return width;
+    }
+
+    public RequestBody convertPlainString(String data) {
+        RequestBody plainString = RequestBody.create(MediaType.parse("text/plain"), data);
+        return plainString;
     }
 }

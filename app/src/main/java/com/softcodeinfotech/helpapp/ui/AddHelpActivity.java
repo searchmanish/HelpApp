@@ -1,4 +1,4 @@
-package com.softcodeinfotech.helpapp;
+package com.softcodeinfotech.helpapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.softcodeinfotech.helpapp.R;
+import com.softcodeinfotech.helpapp.ServiceInterface;
 import com.softcodeinfotech.helpapp.response.GetCategoryResponse;
 import com.softcodeinfotech.helpapp.response.HelpDataInsertResponse;
 import com.softcodeinfotech.helpapp.util.Constant;

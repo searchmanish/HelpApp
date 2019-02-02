@@ -4,7 +4,10 @@ package com.softcodeinfotech.helpapp;
 import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
 import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
+import com.softcodeinfotech.helpapp.response.GetAllHelperListResponse;
 import com.softcodeinfotech.helpapp.response.GetCategoryResponse;
+import com.softcodeinfotech.helpapp.response.GetIndividualUserResponse;
+import com.softcodeinfotech.helpapp.response.GethelplistResponse;
 import com.softcodeinfotech.helpapp.response.HelpDataInsertResponse;
 import com.softcodeinfotech.helpapp.response.HelpHistoryResponse;
 import com.softcodeinfotech.helpapp.response.ImageResponse;
@@ -41,7 +44,7 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );
 
-   //not used to be removed
+    //not used to be removed
     @Multipart
     @POST("helpapp/profileupdate.php")
     Call<ProfileupdateResponse> saveProfile(
@@ -141,7 +144,25 @@ public interface ServiceInterface {
             @Part("user_id") RequestBody user_id
     );
 
+    //get help List on main Activity
+    @Multipart
+    @POST("helpapp/get_help_list.php")
+    Call<GethelplistResponse> getHelpLitstItem(
+            @Part("state") RequestBody state
+    );
 
+    //get all helper List
+    @Multipart
+    @POST("helpapp/get_all_helper_list.php")
+    Call<GetAllHelperListResponse> getAllHelper(
+            @Part("profilestatus")RequestBody profilestatus);
 
+    //get indvidual user info to provide help
+
+    @Multipart
+    @POST("helpapp/get_individual_user_details.php")
+    Call<GetIndividualUserResponse> getIndividualUserDetails(
+            @Part("user_id") RequestBody user_id
+    );
 
 }

@@ -8,28 +8,30 @@
     android:elevation="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:id="@+id/helpCardView"
+    >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/helpTime"
+        app:layout_constraintTop_toTopOf="@+id/helpTime">
 
         <TextView
             android:id="@+id/helpTitle"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="AB NEGATIVE BLOOD "
-            android:textColor="@color/pink"
             android:textAllCaps="true"
+            android:textColor="@color/pink"
             android:textSize="16sp"
             android:textStyle="bold"
             android:typeface="monospace"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.502" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView22"
@@ -38,10 +40,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="8dp"
-            android:typeface="monospace"
-            android:textSize="16sp"
+            android:text="POST TIME"
             android:textColor="#000000"
-            android:text="TIMESTAMP"
+            android:textSize="16sp"
+            android:typeface="monospace"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,13 +56,29 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="8dp"
-            android:typeface="monospace"
-            android:textSize="10sp"
-            android:textColor="@color/colorGreen"
             android:text="Request Time"
+            android:textColor="@color/colorGreen"
+            android:textSize="10sp"
+            android:typeface="monospace"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView22"
             app:layout_constraintVertical_bias="0.060000002" />
+
+        <TextView
+            android:id="@+id/helpDesc"
+            android:layout_width="220dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="help description "
+            android:textAllCaps="true"
+            android:textColor="@color/pink"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/helpTitle" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

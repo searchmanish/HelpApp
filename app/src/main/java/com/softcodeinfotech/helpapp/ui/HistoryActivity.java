@@ -1,4 +1,4 @@
-package com.softcodeinfotech.helpapp;
+package com.softcodeinfotech.helpapp.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.softcodeinfotech.helpapp.R;
+import com.softcodeinfotech.helpapp.ServiceInterface;
 import com.softcodeinfotech.helpapp.adapter.HistoryAdapter;
 import com.softcodeinfotech.helpapp.model.HelpModel;
 import com.softcodeinfotech.helpapp.response.HelpHistoryResponse;

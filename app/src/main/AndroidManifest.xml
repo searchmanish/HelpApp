@@ -21,45 +21,42 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="allowBackup,supportsRtl">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.MainActivity" />
         <activity
-            android:name=".EmailActivity"
+            android:name=".ui.EmailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EmailVerifyActivity"
+            android:name=".ui.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.SignupLoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignupLoginActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ForgotPassword"
+            android:name=".ui.ForgotPassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MailVerifyActivity"
+            android:name=".ui.MailVerifyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProfilesActivity"
+            android:name=".ui.ProfilesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SetProfileImageActivity"
+            android:name=".ui.SetProfileImageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MyProfileActivity"
+            android:name=".ui.MyProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".KycActivity"
+            android:name=".ui.KycActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".ui.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddHelpActivity"
+            android:name=".ui.AddHelpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,7 +65,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.HistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AllHelperActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.IndividualHelpActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.HelpersProfileActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
