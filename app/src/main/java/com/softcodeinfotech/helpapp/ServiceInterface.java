@@ -1,6 +1,8 @@
 package com.softcodeinfotech.helpapp;
 
 
+import com.softcodeinfotech.helpapp.beanresponse.GetforgotpassResponse;
+import com.softcodeinfotech.helpapp.beanresponse.GetmobileverifyResponse;
 import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
 import com.softcodeinfotech.helpapp.response.EmailResponse;
 import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
@@ -25,7 +27,7 @@ import retrofit2.http.Part;
 
 public interface ServiceInterface {
 
-    @Multipart
+   /* @Multipart
     @POST("helpapp/emailverify.php")
     Call<EmailResponse> emailVerify(
 
@@ -33,7 +35,7 @@ public interface ServiceInterface {
             @Part("otp") RequestBody otp,
             @Part("username") RequestBody username,
             @Part("password") RequestBody password
-    );
+    );*/
 
 
     //not used to be removed
@@ -44,7 +46,7 @@ public interface ServiceInterface {
             @Part("password") RequestBody password
     );
 
-    //not used to be removed
+   /* //not used to be removed
     @Multipart
     @POST("helpapp/profileupdate.php")
     Call<ProfileupdateResponse> saveProfile(
@@ -55,17 +57,17 @@ public interface ServiceInterface {
             @Part("mobile") RequestBody mobile,
             @Part("profilestatus") RequestBody profilestatus
 
-    );
+    );*/
 
-    @Multipart
+   /* @Multipart
     @POST("helpapp/user_signin.php")
     Call<SigninResponse> userlogin(
             @Part("email") RequestBody email,
             @Part("password") RequestBody password
-    );
+    );*/
 
 
-    @Multipart
+   /* @Multipart
     @POST("helpapp/profile_update.php")
     Call<ProfileResponse> profileUpdate(
 
@@ -79,7 +81,7 @@ public interface ServiceInterface {
             @Part("state") RequestBody state,
             @Part("pin") RequestBody pin
             // @Part("profilestatus") RequestBody profilestatus
-    );
+    );*/
 
     //forgotpassword
 
@@ -163,6 +165,54 @@ public interface ServiceInterface {
     @POST("helpapp/get_individual_user_details.php")
     Call<GetIndividualUserResponse> getIndividualUserDetails(
             @Part("user_id") RequestBody user_id
+    );
+
+//===========================================================================================================
+    //new code february
+
+    //Registration using mobile
+
+    @Multipart
+    @POST("helpapp/api/mobileverify.php")
+    Call<GetmobileverifyResponse> mobileVerify(
+            @Part("mobile") RequestBody  mobile,
+            @Part("otp") RequestBody otp,
+            @Part("username") RequestBody username,
+            @Part("password") RequestBody password
+    );
+
+    //forgot password
+    @Multipart
+    @POST("helpapp/api/forgotpassword.php")
+    Call<GetforgotpassResponse> getPasswordOnMobile(
+            @Part("mobile") RequestBody mobile
+    );
+
+
+    //login
+
+    @Multipart
+    @POST("helpapp/api/user_signin.php")
+    Call<SigninResponse> userlogin(
+            @Part("mobile") RequestBody mobile,
+            @Part("password") RequestBody password
+    );
+
+
+    @Multipart
+    @POST("helpapp/api/profile_update.php")
+    Call<ProfileResponse> profileUpdate(
+
+            @Part("email") RequestBody email,
+            @Part("name") RequestBody name,
+            @Part("age") RequestBody age,
+            @Part("gender") RequestBody gender,
+            @Part("mobile") RequestBody mobile,
+            @Part("aadhar") RequestBody aadhar,
+            @Part("address") RequestBody address,
+            @Part("state") RequestBody state,
+            @Part("pin") RequestBody pin
+            // @Part("profilestatus") RequestBody profilestatus
     );
 
 }

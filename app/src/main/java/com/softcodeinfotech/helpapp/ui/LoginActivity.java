@@ -30,8 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText email, password;
-    String mEmail, mPassword, mForgotPass, mSignup;
+    EditText mobile, password;
+    String mMobile, mPassword, mForgotPass, mSignup;
     Button login;
     TextView forgotPass, signup;
     ProgressBar pBar;
@@ -77,15 +77,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getData();
 
-                if (DataValidation.isNotValidEmail(mEmail)) {
-                    Toast.makeText(LoginActivity.this, "Fill Valid Email", Toast.LENGTH_SHORT).show();
+                if (DataValidation.isValidPhoneNumber(mMobile)) {
+                    Toast.makeText(LoginActivity.this, "Fill Valid Mobile Number", Toast.LENGTH_SHORT).show();
                 } else if (mPassword.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Fill email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Fill mobile", Toast.LENGTH_SHORT).show();
                 } else {
                     pBar.setVisibility(View.VISIBLE);
 
                     signinReq();
-                   // Toast.makeText(LoginActivity.this, "" + mEmail + " " + mPassword, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(LoginActivity.this, "" + mMobile + " " + mPassword, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pBar.setVisibility(View.GONE);
-                Intent signupIntent = new Intent(LoginActivity.this, EmailActivity.class);
+                Intent signupIntent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(signupIntent);
                 finish();
             }
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signinReq() {
-        Call<SigninResponse> call = serviceInterface.userlogin(convertPlainString(mEmail), convertPlainString(mPassword));
+        Call<SigninResponse> call = serviceInterface.userlogin(convertPlainString(mMobile), convertPlainString(mPassword));
         call.enqueue(new Callback<SigninResponse>() {
             @Override
             public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     pBar.setVisibility(View.GONE);
                     //Toast.makeText(LoginActivity.this, "userid"+response.body().getInformation().getUserId(), Toast.LENGTH_SHORT).show();
                     SharePreferenceUtils.getInstance().saveString(Constant.USER_id, String.valueOf(response.body().getInformation().getUserId()));
-                    SharePreferenceUtils.getInstance().saveString(Constant.USER_email, response.body().getInformation().getEmail());
+                    SharePreferenceUtils.getInstance().saveString(Constant.USER_mobile, response.body().getInformation().getEmail());
                     SharePreferenceUtils.getInstance().saveString(Constant.USER_name, response.body().getInformation().getName());
                     SharePreferenceUtils.getInstance().saveString(Constant.User_age, response.body().getInformation().getAge());
                     SharePreferenceUtils.getInstance().saveString(Constant.USER_gender, response.body().getInformation().getGender());
@@ -144,12 +144,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        mEmail = email.getText().toString().trim();
+        mMobile = mobile.getText().toString().trim();
         mPassword = password.getText().toString().trim();
     }
 
     private void setUpWidget() {
-        email = findViewById(R.id.editText);
+        mobile = findViewById(R.id.editText);
         password = findViewById(R.id.editText2);
         forgotPass = findViewById(R.id.textView10);
         signup = findViewById(R.id.textView6);

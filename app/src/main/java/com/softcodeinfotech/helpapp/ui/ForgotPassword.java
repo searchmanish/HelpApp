@@ -8,17 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.ServiceInterface;
-import com.softcodeinfotech.helpapp.response.ForgotpassResponse;
+import com.softcodeinfotech.helpapp.beanresponse.GetforgotpassResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.DataValidation;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,10 +32,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ForgotPassword extends AppCompatActivity {
 
-    EditText email;
+    EditText mobile;
     Button send;
-    String mEmail;
+    String mMobile;
     ImageButton getBack;
+    ProgressBar pBar;
 
     Retrofit retrofit;
     ServiceInterface serviceInterface;
@@ -44,11 +49,18 @@ public class ForgotPassword extends AppCompatActivity {
 
         setUpWidget();
         getData();
+        pBar.setVisibility(View.GONE);
 
         Gson gson = new GsonBuilder().create();
+        //okhttp client
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
         serviceInterface = retrofit.create(ServiceInterface.class);
 
@@ -56,12 +68,13 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getData();
-                if (DataValidation.isNotValidEmail(mEmail)) {
-                    Toast.makeText(ForgotPassword.this, "Enter Valid Email", Toast.LENGTH_SHORT).show();
+                if (DataValidation.isValidPhoneNumber(mMobile)) {
+                    Toast.makeText(ForgotPassword.this, "Enter Valid Mobile Number", Toast.LENGTH_SHORT).show();
 
                 } else {
                     getData();
                     sendReq();
+                    pBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -78,12 +91,14 @@ public class ForgotPassword extends AppCompatActivity {
 
 
     private void sendReq() {
-        Call<ForgotpassResponse> call = serviceInterface.forgotPassword(convertPlainString(mEmail));
-        call.enqueue(new Callback<ForgotpassResponse>() {
+        Call<GetforgotpassResponse> call = serviceInterface.getPasswordOnMobile(convertPlainString(mMobile));
+        call.enqueue(new Callback<GetforgotpassResponse>() {
             @Override
-            public void onResponse(Call<ForgotpassResponse> call, Response<ForgotpassResponse> response) {
+            public void onResponse(Call<GetforgotpassResponse> call, Response<GetforgotpassResponse> response) {
+
                 Toast.makeText(ForgotPassword.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 if (response.body().getStatus() == 1) {
+                    pBar.setVisibility(View.GONE);
                     Log.i("sucess", response.body().getMsg());
                     Intent loginIntent = new Intent(ForgotPassword.this, LoginActivity.class);
                     startActivity(loginIntent);
@@ -92,25 +107,27 @@ public class ForgotPassword extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ForgotpassResponse> call, Throwable t) {
+            public void onFailure(Call<GetforgotpassResponse> call, Throwable t) {
+                pBar.setVisibility(View.GONE);
                 Toast.makeText(ForgotPassword.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        Toast.makeText(this, "Call serever for mail", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Call serever for password", Toast.LENGTH_SHORT).show();
     }
 
 
     private void getData() {
-        mEmail = email.getText().toString().trim();
+        mMobile = mobile.getText().toString().trim();
     }
 
     private void setUpWidget() {
 
-        email = findViewById(R.id.editText);
+        mobile = findViewById(R.id.editText);
         send = findViewById(R.id.button3);
         getBack = findViewById(R.id.imageButton3);
+        pBar = findViewById(R.id.pBar);
 
     }
 

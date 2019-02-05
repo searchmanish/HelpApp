@@ -37,7 +37,7 @@ public class ProfilesActivity extends AppCompatActivity {
 
     Button submit;
     ImageButton back;
-    EditText aadhar, age, mobile, address, pin;
+    EditText aadhar, age, email, address, pin;
     String mAadhar, mAge, mMobile, mAddress, mPin, mState, mEmail, mName;
     ToggleSwitch toggleSwitchGender;
     int genderPositionToggle;
@@ -57,7 +57,7 @@ public class ProfilesActivity extends AppCompatActivity {
         setUpWidget();
         getData();
         pBar.setVisibility(View.GONE);
-        mEmail = SharePreferenceUtils.getInstance().getString("USER_email");
+        mMobile = SharePreferenceUtils.getInstance().getString("USER_mobile");
         mName = SharePreferenceUtils.getInstance().getString("USER_name");
 
 
@@ -165,7 +165,7 @@ public class ProfilesActivity extends AppCompatActivity {
 
         mAadhar = aadhar.getText().toString().trim();
         mAge = age.getText().toString().trim();
-        mMobile = mobile.getText().toString().trim();
+        mEmail = email.getText().toString().trim();
         mAddress = address.getText().toString().trim();
         genderPositionToggle = toggleSwitchGender.getCheckedTogglePosition();
         mPin = pin.getText().toString().trim();
@@ -184,7 +184,7 @@ public class ProfilesActivity extends AppCompatActivity {
     private void setUpWidget() {
         aadhar = findViewById(R.id.editText3);
         age = findViewById(R.id.editText4);
-        mobile = findViewById(R.id.editText);
+        email = findViewById(R.id.editText);
         address = findViewById(R.id.editText2);
         toggleSwitchGender = findViewById(R.id.textView17);
         alreadyMember = findViewById(R.id.textView10);

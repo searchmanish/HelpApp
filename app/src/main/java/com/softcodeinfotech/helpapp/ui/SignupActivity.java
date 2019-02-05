@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,29 +17,38 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.ServiceInterface;
-import com.softcodeinfotech.helpapp.response.EmailResponse;
+import com.softcodeinfotech.helpapp.beanresponse.GetmobileverifyResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.DataValidation;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class EmailActivity extends AppCompatActivity {
-    EditText email, password, username;
+public class SignupActivity extends AppCompatActivity {
+    EditText mobile, password, username;
     Button submit;
     ImageButton back;
     TextView alreadymember;
-    String mEmail, mPassword, mUsername;
+    String mMobile, mPassword, mUsername;
     String val;
     ProgressBar pBar;
 
+    //gmail facebook Integration
+
+    ImageView gmail,facebook;
+
     Retrofit retrofit;
+
     ConstraintLayout rootlayout;
 
     ServiceInterface serviceInterface;
@@ -59,9 +69,18 @@ public class EmailActivity extends AppCompatActivity {
         //pBar.setVisibility(View.GONE);
 
         Gson gson = new GsonBuilder().create();
+
+        //okhttp client
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
 
         serviceInterface = retrofit.create(ServiceInterface.class);
@@ -76,7 +95,7 @@ public class EmailActivity extends AppCompatActivity {
         alreadymember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signinIntent = new Intent(EmailActivity.this, LoginActivity.class);
+                Intent signinIntent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(signinIntent);
                 finish();
             }
@@ -87,16 +106,16 @@ public class EmailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                mEmail = email.getText().toString().trim();
+                mMobile = mobile.getText().toString().trim();
                 getdata();
 
-                if (DataValidation.isNotValidEmail(mEmail)) {
-                    Toast.makeText(EmailActivity.this, "Input valid Email", Toast.LENGTH_SHORT).show();
+                if (DataValidation.isValidPhoneNumber(mMobile)) {
+                    Toast.makeText(SignupActivity.this, "Input valid mobile number", Toast.LENGTH_SHORT).show();
                 } else if (mPassword.isEmpty()) {
-                    Toast.makeText(EmailActivity.this, "Input valid password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Input valid password", Toast.LENGTH_SHORT).show();
 
                 } else if (mUsername.isEmpty()) {
-                    Toast.makeText(EmailActivity.this, "Input valid Username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Input valid Username", Toast.LENGTH_SHORT).show();
 
                 } else {
                     int randomPIN = (int) (Math.random() * 9000) + 1000;
@@ -109,10 +128,27 @@ public class EmailActivity extends AppCompatActivity {
             }
         });
 
+
+        //gmail
+        gmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SignupActivity.this, "Gmail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Facebook
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SignupActivity.this, "facebook", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void getdata() {
-        mEmail = email.getText().toString().trim();
+        mMobile = mobile.getText().toString().trim();
         mUsername = username.getText().toString().trim();
         mPassword = password.getText().toString().trim();
 
@@ -120,39 +156,39 @@ public class EmailActivity extends AppCompatActivity {
 
     private void sendDataReq() {
 
-        Call<EmailResponse> call = serviceInterface.emailVerify(convertPlainString(mEmail), convertPlainString(val), convertPlainString(mUsername), convertPlainString(mPassword));
-        call.enqueue(new Callback<EmailResponse>() {
+        Call<GetmobileverifyResponse> call = serviceInterface.mobileVerify(convertPlainString(mMobile), convertPlainString(val), convertPlainString(mUsername), convertPlainString(mPassword));
+        call.enqueue(new Callback<GetmobileverifyResponse>() {
             @Override
-            public void onResponse(Call<EmailResponse> call, Response<EmailResponse> response) {
+            public void onResponse(Call<GetmobileverifyResponse> call, Response<GetmobileverifyResponse> response) {
 
                 if (response.body().getStatus() == 1) {
                     pBar.setVisibility(View.GONE);
                     SharePreferenceUtils.getInstance().saveString("USER_otp", response.body().getInformation().getOtp());
-                    SharePreferenceUtils.getInstance().saveString("USER_email", response.body().getInformation().getEmail());
+                    SharePreferenceUtils.getInstance().saveString("USER_mobile", response.body().getInformation().getMobile());
                     SharePreferenceUtils.getInstance().saveString("USER_name", response.body().getInformation().getName());
                     SharePreferenceUtils.getInstance().saveString("USER_password", response.body().getInformation().getPassword());
 
-                    Intent intent = new Intent(EmailActivity.this, MailVerifyActivity.class);
-                    intent.putExtra("email", mEmail);
+                    Intent intent = new Intent(SignupActivity.this, MailVerifyActivity.class);
+                    intent.putExtra("mobile", mMobile);
                     intent.putExtra("otp", val);
                     startActivity(intent);
                     finish();
 
 
-                    // Toast.makeText(EmailActivity.this, "" + response.body().getMsg() + " " + val, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(SignupActivity.this, "" + response.body().getMsg() + " " + val, Toast.LENGTH_SHORT).show();
                 } else {
                     pBar.setVisibility(View.GONE);
 
-                    Toast.makeText(EmailActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
                 }
 
 
             }
 
             @Override
-            public void onFailure(Call<EmailResponse> call, Throwable t) {
+            public void onFailure(Call<GetmobileverifyResponse> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
-                Toast.makeText(EmailActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -161,13 +197,17 @@ public class EmailActivity extends AppCompatActivity {
 
     private void setUpWidget() {
 
-        email = findViewById(R.id.editText);
+        mobile = findViewById(R.id.editText);
         username = findViewById(R.id.editText3);
         password = findViewById(R.id.editText2);
         submit = findViewById(R.id.button3);
         alreadymember = findViewById(R.id.textView10);
         pBar = findViewById(R.id.progressBar2);
         back = findViewById(R.id.imageButton3);
+
+        //
+        gmail = findViewById(R.id.imageView7);
+        facebook = findViewById(R.id.imageView8);
     }
 
     // convert aa param into plain text
