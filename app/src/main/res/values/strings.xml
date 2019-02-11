@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HelpApp</string>
+    <string name="app_name">ELFEE</string>
 
     <string-array name="selectState">
         <item>Delhi</item>
@@ -8,5 +8,9 @@
         <item>Kerala</item>
 
     </string-array>
+
+    <string name="facebook_app_id">285541172113379</string>
+    <string name="fb_login_protocol_scheme">fb285541172113379</string>
+
 
 </resources>

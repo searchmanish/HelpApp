@@ -10,8 +10,10 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -38,6 +40,10 @@ public class SplashActivity extends AppCompatActivity {
        // email = SharePreferenceUtils.getInstance().getString(Constant.USER_email);
 
         //Toast.makeText(this, ""+email, Toast.LENGTH_SHORT).show();
+
+       /* //key hash for facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        Log.d("AppLog", "key:" + FacebookSdk.getApplicationSignature(this));*/
 
         if (Build.VERSION.SDK_INT >= 23) {
             requestPermission();

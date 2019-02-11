@@ -112,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         serviceInterface = retrofit.create(ServiceInterface.class);
 
-        state = SharePreferenceUtils.getInstance().getString(Constant.USER_state);
+        //state = SharePreferenceUtils.getInstance().getString(Constant.USER_state);
+        state = "delhi";
        // Toast.makeText(this, ""+state, Toast.LENGTH_SHORT).show();
         Log.v( "state", state);
 
