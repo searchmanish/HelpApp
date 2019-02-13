@@ -335,7 +335,9 @@ public class AddHelpActivity extends AppCompatActivity {
                 pBar.setVisibility(View.GONE);
                 if (response.body() != null) {
                     if (response.body().getStatus().equals(1)) {
-                        Toast.makeText(AddHelpActivity.this, "sucess", Toast.LENGTH_SHORT).show();
+                        title.setText("");
+                        desc.setText("");
+                        Toast.makeText(AddHelpActivity.this, "help data added sucessfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("error_in upload", "not uploaded");
 
