@@ -16,7 +16,7 @@ import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
+//
     private Context mContext;
     private List<HelpModel> mHelpHistoryModel;
     private String TAG = "HistoryAdapter";
