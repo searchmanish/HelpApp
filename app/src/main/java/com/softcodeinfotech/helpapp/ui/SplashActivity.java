@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (SharePreferenceUtils.getInstance().getString(Constant.USER_email).equalsIgnoreCase("")) {
+                if (SharePreferenceUtils.getInstance().getString(Constant.USER_id).equalsIgnoreCase("")) {
                     // not registted user  so show login screen
                     Intent intent = new Intent(SplashActivity.this, SignupLoginActivity.class);
                     startActivity(intent);
@@ -82,7 +82,8 @@ public class SplashActivity extends AppCompatActivity {
                 .withPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE)
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {

@@ -1,9 +1,16 @@
 package com.softcodeinfotech.helpapp.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +31,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.softcodeinfotech.helpapp.R;
@@ -46,14 +59,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    String email, name, age, gender, mobile, imageurl,uid,state;
+    String email, name, age, gender, mobile, imageurl, uid, state;
 
     DrawerLayout drawer;
     ImageButton toggle;
     TextView profile, kyc, orders;
     BottomNavigationView bottom;
     TextView toolbar;
-    TextView account,myHistory;
+    TextView account, myHistory;
     ImageButton settings;
     ImageView image;
     TextView dName, dEmail;
@@ -66,14 +79,21 @@ public class MainActivity extends AppCompatActivity {
     ServiceInterface serviceInterface;
 
     String TAG = "MainActivity";
-    private  RecyclerView replaceRecyler;
+    private RecyclerView replaceRecyler;
     private ArrayList<GetHelpListModel> mHelpDetailsList = new ArrayList<GetHelpListModel>();
     private GetHelpListAdapter getHelpListAdapter;
+
+    //location
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int MY_PERMISSION_REQUEST_FINE_LOCATION = 101;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private String latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main1);
+        setContentView(R.layout.activity_main);
         setUpWidget();
 
         email = SharePreferenceUtils.getInstance().getString(Constant.USER_email);
@@ -85,11 +105,7 @@ public class MainActivity extends AppCompatActivity {
         uid = SharePreferenceUtils.getInstance().getString(Constant.USER_id);
 
 
-
-
-      //  Toast.makeText(this, ""+uid, Toast.LENGTH_SHORT).show();
-
-
+        //  Toast.makeText(this, ""+uid, Toast.LENGTH_SHORT).show();
         // Toast.makeText(this, ""+email+""+name+""+""+age+""+gender+""+mobile, Toast.LENGTH_SHORT).show();
 
         //for default placeholder image in glide
@@ -102,9 +118,58 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this).setDefaultRequestOptions(requestOptions).load(imageurl).into(image);
 
         //
-        pBar.setVisibility(View.VISIBLE);
+        pBar.setVisibility(View.GONE);
+
+        //location
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(7500); //use a value fo about 10 to 15s for a real app
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location!=null)
+                    {
+                        latitude=String.valueOf(location.getLatitude());
+                        longitude=String.valueOf(location.getLongitude());
+                        Toast.makeText(MainActivity.this, "latitude="+latitude+"longitude="+longitude, Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }  else {
+            // request permissions
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
+            }
+        }
+
+        locationCallback = new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                for (Location location : locationResult.getLocations()) {
+                    //Update UI with location data
+                    if (location != null) {
+                        latitude=(String.valueOf(location.getLatitude()));
+                        longitude=(String.valueOf(location.getLongitude()));
 
 
+                    }
+                }
+            }
+
+        };
+
+
+
+
+        //retrofit
         Gson gson = new GsonBuilder().create();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
@@ -114,10 +179,10 @@ public class MainActivity extends AppCompatActivity {
 
         //state = SharePreferenceUtils.getInstance().getString(Constant.USER_state);
         state = "delhi";
-       // Toast.makeText(this, ""+state, Toast.LENGTH_SHORT).show();
-        Log.v( "state", state);
+        // Toast.makeText(this, ""+state, Toast.LENGTH_SHORT).show();
+        Log.v("state", state);
 
-        // replaceRecyler = (RecyclerView) findViewById(R.id.recyclerView);
+      /*  // replaceRecyler = (RecyclerView) findViewById(R.id.recyclerView);
         LinearLayoutManager mLayoutManger = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         replaceRecyler.setLayoutManager(mLayoutManger);
         replaceRecyler.setItemAnimator(new DefaultItemAnimator());
@@ -125,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
         getHelpListAdapter = new GetHelpListAdapter(this, mHelpDetailsList, GetScreenWidth());
         replaceRecyler.setAdapter(getHelpListAdapter);
         replaceRecyler.setItemAnimator(new DefaultItemAnimator());
-        getHelpListReq();
+      //  getHelpListReq();*/
+
 
 
 
@@ -149,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         kyc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent kycIntent = new Intent(MainActivity.this,KycActivity.class);
+                Intent kycIntent = new Intent(MainActivity.this, KycActivity.class);
                 startActivity(kycIntent);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -157,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent accountIntent = new Intent(MainActivity.this,AccountActivity.class);
+                Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(accountIntent);
                 drawer.closeDrawer(GravityCompat.START);
 
@@ -166,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         myHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myhistoryIntent = new Intent(MainActivity.this,HistoryActivity.class);
+                Intent myhistoryIntent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(myhistoryIntent);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -176,155 +242,75 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent addHelpIntent = new Intent(MainActivity.this,AddHelpActivity.class);
-                startActivity(addHelpIntent);
+                if (mobile.isEmpty()) {
+
+                    Toast.makeText(MainActivity.this, "Login First Than Add Help..", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Intent addHelpIntent = new Intent(MainActivity.this, AddHelpActivity.class);
+                    addHelpIntent.putExtra("lati",latitude);
+                    addHelpIntent.putExtra("longi",longitude);
+                    startActivity(addHelpIntent);
+                }
             }
         });
 
-       /*
-        myTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toolbar.setText("My Test");
 
-                bottom.setSelectedItemId(R.id.test);
+        FragmentManager fm1 = getSupportFragmentManager();
+        FragmentTransaction ft1 = fm1.beginTransaction();
+        AllHelpFragment allHelpFragment=new AllHelpFragment();
+        ft1.replace(R.id.replace, allHelpFragment);
+        ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        //ft.addToBackStack(null);
+        ft1.commit();
+        drawer.closeDrawer(GravityCompat.START);
 
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                MyTest test = new MyTest();
-                ft.replace(R.id.replace, test);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                //ft.addToBackStack(null);
-                ft.commit();
-                drawer.closeDrawer(GravityCompat.START);
 
-            }
-        });
 
         bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                switch (menuItem.getItemId()) {
-                    case R.id.test:
-                        toolbar.setText("My Test");
-
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        MyTest test = new MyTest();
-                        ft.replace(R.id.replace, test);
-                        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                        //ft.addToBackStack(null);
-                        ft.commit();
-                        drawer.closeDrawer(GravityCompat.START);
-
-                        return true;
-                    case R.id.college:
-                        toolbar.setText("College Info");
+                switch (menuItem.getItemId())
+                {
+                    case R.id.helpMe:
+                        toolbar.setText("Help Me");
+                        //  Toast.makeText(MainActivity.this, "help me", Toast.LENGTH_SHORT).show();
+                        // return true;
+                        // break;
 
                         FragmentManager fm1 = getSupportFragmentManager();
                         FragmentTransaction ft1 = fm1.beginTransaction();
-                        CollegeInfo test1 = new CollegeInfo();
-                        ft1.replace(R.id.replace, test1);
+                        AllHelpFragment allHelpFragment=new AllHelpFragment();
+                        ft1.replace(R.id.replace, allHelpFragment);
                         ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         //ft.addToBackStack(null);
                         ft1.commit();
                         drawer.closeDrawer(GravityCompat.START);
 
-                        return true;
+                        break;
 
-                    case R.id.home:
-                        toolbar.setText("Home");
+                    case R.id.helpersList:
+                        toolbar.setText("Helpers List");
+                      /*  Intent intent = new Intent(MainActivity.this, AllHelperActivity.class);
+                        startActivity(intent);
+                        //  Toast.makeText(MainActivity.this, "Helpers List", Toast.LENGTH_SHORT).show();
+                        break;*/
+
 
                         FragmentManager fm2 = getSupportFragmentManager();
                         FragmentTransaction ft2 = fm2.beginTransaction();
-                        Home home = new Home();
-                        ft2.replace(R.id.replace, home);
+                        AllHelperFragment allHelperFragment = new AllHelperFragment();
+                        ft2.replace(R.id.replace, allHelperFragment);
                         ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         //ft.addToBackStack(null);
                         ft2.commit();
                         drawer.closeDrawer(GravityCompat.START);
-
-                        return true;
-
-                }
-
-                return true;
-            }
-        });
-
-        settings1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, Settings.class);
-                startActivity(intent);
-                drawer.closeDrawer(GravityCompat.START);
-
-            }
-        });
-
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, Settings.class);
-                startActivity(intent);
-                drawer.closeDrawer(GravityCompat.START);
-
-            }
-        });
-
-        orders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, Orders.class);
-                startActivity(intent);
-                drawer.closeDrawer(GravityCompat.START);
-
-            }
-        });
-
-        toolbar.setText("Home");
-
-        FragmentManager fm2 = getSupportFragmentManager();
-        FragmentTransaction ft2 = fm2.beginTransaction();
-        Home home = new Home();
-        ft2.replace(R.id.replace, home);
-        ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        //ft.addToBackStack(null);
-        ft2.commit();
-        drawer.closeDrawer(GravityCompat.START);
-
-        bottom.setSelectedItemId(R.id.home);
-*/
-        //
-
-        bottom.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.helpMe:
-                        toolbar.setText("Help Me");
-                      //  Toast.makeText(MainActivity.this, "help me", Toast.LENGTH_SHORT).show();
-                       // return true;
                         break;
 
-                    case  R.id.helpersList:
-                        toolbar.setText("Helpers List");
-                        Intent intent = new Intent(MainActivity.this,AllHelperActivity.class);
-                        startActivity(intent);
-                      //  Toast.makeText(MainActivity.this, "Helpers List", Toast.LENGTH_SHORT).show();
-                          break;
-
-
                 }
-                return;
-
-
+                return true;
             }
-
         });
 
     }
@@ -334,18 +320,16 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<GethelplistResponse>() {
             @Override
             public void onResponse(Call<GethelplistResponse> call, Response<GethelplistResponse> response) {
-                if (response.body().getStatus().equals(1))
-                {
+                if (response.body().getStatus().equals(1)) {
                     pBar.setVisibility(View.GONE);
-                    for (int i = 0; i < response.body().getInformation().size(); i++)
-                    {
+                    for (int i = 0; i < response.body().getInformation().size(); i++) {
                         mHelpDetailsList.add(new GetHelpListModel(response.body().getInformation().get(i).getHelpTitle(),
                                 String.valueOf(response.body().getInformation().get(i).getTimestamp()),
                                 response.body().getInformation().get(i).getHelpDescription()
                                 , String.valueOf(response.body().getInformation().get(i).getHelpCategoryId()),
                                 response.body().getInformation().get(i).getStatus()
                                 , response.body().getInformation().get(i).getState(),
-                                String.valueOf( response.body().getInformation().get(i).getUserId())));
+                                String.valueOf(response.body().getInformation().get(i).getUserId())));
                     }
                     getHelpListAdapter.notifyDataSetChanged();
                 }
@@ -354,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GethelplistResponse> call, Throwable t) {
                 pBar.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, ""+t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "" + t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -410,5 +394,55 @@ public class MainActivity extends AppCompatActivity {
     public RequestBody convertPlainString(String data) {
         RequestBody plainString = RequestBody.create(MediaType.parse("text/plain"), data);
         return plainString;
+    }
+
+
+    //method to get location
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_FINE_LOCATION:
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted do nothing and carry on
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "This app requires location permissions to be granted", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startLocationUpdates();
+    }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
+            }
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 }

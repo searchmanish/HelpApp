@@ -1,6 +1,7 @@
 package com.softcodeinfotech.helpapp;
 
 
+import com.softcodeinfotech.helpapp.beanresponse.AddHelpListResponse;
 import com.softcodeinfotech.helpapp.beanresponse.GetforgotpassResponse;
 import com.softcodeinfotech.helpapp.beanresponse.GetmobileverifyResponse;
 import com.softcodeinfotech.helpapp.response.AadharUpdateResponse;
@@ -213,6 +214,22 @@ public interface ServiceInterface {
             @Part("state") RequestBody state,
             @Part("pin") RequestBody pin
             // @Part("profilestatus") RequestBody profilestatus
+    );
+
+    @Multipart
+    @POST("helpapp/help_datainsert.php")
+    Call<AddHelpListResponse> help_DataInsert(
+            @Part("user_id") RequestBody user_id,
+            @Part("help_title") RequestBody help_title,
+            @Part("help_description") RequestBody help_description,
+            @Part("help_category_id") RequestBody help_category_id,
+            @Part("state") RequestBody state,
+            @Part("image\"; filename=\".jpg\" ") RequestBody file,
+            @Part("address") RequestBody address,
+            @Part("latitude") RequestBody latitude,
+            @Part("longitude") RequestBody longitude
+
+
     );
 
 }

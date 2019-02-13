@@ -20,7 +20,10 @@ import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.DataValidation;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,10 +52,17 @@ public class LoginActivity extends AppCompatActivity {
         pBar.setVisibility(View.GONE);
         //getData();
 
+        //okhttp client
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
+
         Gson gson = new GsonBuilder().create();
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build();
 
         serviceInterface = retrofit.create(ServiceInterface.class);
