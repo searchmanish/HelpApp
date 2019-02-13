@@ -9,10 +9,48 @@ public class GetHelpListModel {
     String helpStatus;
     String helpState;
     String userId;
+    String address;
+    String latitude;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    String longitude;
+    String image;
 
     public GetHelpListModel(String helpTitle, String helpTimeStamp,
                             String helpDescription, String helpCategoryId,
-                            String helpStatus, String helpState, String userId) {
+                            String helpStatus, String helpState, String userId,
+                            String address, String latitude,String longitude,String image) {
         this.helpTitle = helpTitle;
         this.helpTimeStamp = helpTimeStamp;
         this.helpDescription = helpDescription;
@@ -20,6 +58,10 @@ public class GetHelpListModel {
         this.helpStatus = helpStatus;
         this.helpState = helpState;
         this.userId = userId;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.image = image;
     }
 
     public String getHelpTitle() {

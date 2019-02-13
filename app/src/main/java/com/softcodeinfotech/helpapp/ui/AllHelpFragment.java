@@ -125,7 +125,11 @@ public class AllHelpFragment extends Fragment {
                                 , String.valueOf(response.body().getInformation().get(i).getHelpCategoryId()),
                                 response.body().getInformation().get(i).getStatus()
                                 , response.body().getInformation().get(i).getState(),
-                                String.valueOf(response.body().getInformation().get(i).getUserId())));
+                                String.valueOf(response.body().getInformation().get(i).getUserId()),
+                                response.body().getInformation().get(i).getAddress(),
+                                response.body().getInformation().get(i).getLatitude(),
+                                response.body().getInformation().get(i).getLongitude(),
+                                response.body().getInformation().get(i).getImage()));
                     }
                     getHelpListAdapter.notifyDataSetChanged();
                 }

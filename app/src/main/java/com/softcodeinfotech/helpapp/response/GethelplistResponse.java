@@ -80,6 +80,18 @@ public class GethelplistResponse {
         @SerializedName("user_id")
         @Expose
         private Integer userId;
+        @SerializedName("address")
+        @Expose
+        private String address;
+        @SerializedName("latitude")
+        @Expose
+        private String latitude;
+        @SerializedName("longitude")
+        @Expose
+        private String longitude;
+        @SerializedName("image")
+        @Expose
+        private String image;
 
         public String getHelpTitle() {
             return helpTitle;
@@ -169,6 +181,57 @@ public class GethelplistResponse {
 
         public Information withUserId(Integer userId) {
             this.userId = userId;
+            return this;
+        }
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public Information withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude;
+        }
+
+        public Information withLatitude(String latitude) {
+            this.latitude = latitude;
+            return this;
+        }
+
+        public String getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(String longitude) {
+            this.longitude = longitude;
+        }
+
+        public Information withLongitude(String longitude) {
+            this.longitude = longitude;
+            return this;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public Information withImage(String image) {
+            this.image = image;
             return this;
         }
 

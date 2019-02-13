@@ -149,7 +149,7 @@ public interface ServiceInterface {
 
     //get help List on main Activity
     @Multipart
-    @POST("helpapp/get_help_list.php")
+    @POST("helpapp/get_helplist.php")
     Call<GethelplistResponse> getHelpLitstItem(
             @Part("state") RequestBody state
     );

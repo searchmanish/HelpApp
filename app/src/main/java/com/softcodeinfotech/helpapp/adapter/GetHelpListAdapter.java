@@ -8,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.softcodeinfotech.helpapp.ui.IndividualHelpActivity;
 import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.model.GetHelpListModel;
@@ -33,6 +36,7 @@ public class GetHelpListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class GetHelpListAdapterHolder extends RecyclerView.ViewHolder {
         TextView mHelpTitle, mHelpTimeStamp, mHelpDescription;
+        ImageView mImage;
         CardView mCardView;
 
         public GetHelpListAdapterHolder(@NonNull View itemView) {
@@ -41,6 +45,8 @@ public class GetHelpListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             mHelpTimeStamp = itemView.findViewById(R.id.helpTime);
             mHelpDescription = itemView.findViewById(R.id.helpDesc);
             mCardView =  itemView.findViewById(R.id.helpCardView);
+            mImage = itemView.findViewById(R.id.img);
+
         }
 
 
@@ -61,6 +67,12 @@ public class GetHelpListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ((GetHelpListAdapterHolder) viewHolder).mHelpTitle.setText(getHelpListModel.getHelpTitle());
         ((GetHelpListAdapterHolder) viewHolder).mHelpDescription.setText(getHelpListModel.getHelpDescription());
         ((GetHelpListAdapterHolder) viewHolder).mHelpTimeStamp.setText(getHelpListModel.getHelpTimeStamp());
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.needblood);
+        requestOptions.error(R.drawable.needblood);
+        Glide.with(mContext).setDefaultRequestOptions(requestOptions).load(getHelpListModel.getImage())
+                .into(((GetHelpListAdapterHolder) viewHolder).mImage);
 
         ((GetHelpListAdapterHolder) viewHolder).mCardView.setOnClickListener(new View.OnClickListener() {
             @Override

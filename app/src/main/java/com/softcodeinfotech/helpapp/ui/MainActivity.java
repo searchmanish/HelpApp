@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getHelpListReq() {
+   /* private void getHelpListReq() {
         Call<GethelplistResponse> call = serviceInterface.getHelpLitstItem(convertPlainString(state));
         call.enqueue(new Callback<GethelplistResponse>() {
             @Override
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+*/
     private void setUpWidget() {
         ///
         drawer = findViewById(R.id.drawer);
