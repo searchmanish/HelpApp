@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,6 +24,7 @@ import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.ServiceInterface;
 import com.softcodeinfotech.helpapp.adapter.GetHelpListAdapter;
 import com.softcodeinfotech.helpapp.model.GetHelpListModel;
+import com.softcodeinfotech.helpapp.response.GetCategoryResponse;
 import com.softcodeinfotech.helpapp.response.GethelplistResponse;
 import com.softcodeinfotech.helpapp.util.Constant;
 import com.softcodeinfotech.helpapp.util.SharePreferenceUtils;
@@ -43,6 +47,15 @@ import static android.content.Context.WINDOW_SERVICE;
 public class AllHelpFragment extends Fragment {
 
     String email, name, age, gender, mobile, imageurl, uid, state;
+
+    //spinner
+    Spinner spinCategory;
+    ArrayList<String> catId = new ArrayList<>();
+    ArrayList<String> catName = new ArrayList<>();
+
+    String mCatId,item;
+    String latitude,longitude;
+
 
     //RecylerView
     ProgressBar pBar;
@@ -69,6 +82,7 @@ public class AllHelpFragment extends Fragment {
 
         replaceRecyler =view.findViewById(R.id.replaceRecycler);
         pBar = view.findViewById(R.id.progressBar6);
+        spinCategory =view.findViewById(R.id.spinCategory);
 
         email = SharePreferenceUtils.getInstance().getString(Constant.USER_email);
         name = SharePreferenceUtils.getInstance().getString(Constant.USER_name);
@@ -90,6 +104,9 @@ public class AllHelpFragment extends Fragment {
                 .build();
         serviceInterface = retrofit.create(ServiceInterface.class);
 
+
+
+
         //state = SharePreferenceUtils.getInstance().getString(Constant.USER_state);
         state = "delhi";
         // Toast.makeText(this, ""+state, Toast.LENGTH_SHORT).show();
@@ -104,7 +121,42 @@ public class AllHelpFragment extends Fragment {
         getHelpListAdapter = new GetHelpListAdapter(getContext(), mHelpDetailsList, GetScreenWidth());
         replaceRecyler.setAdapter(getHelpListAdapter);
         replaceRecyler.setItemAnimator(new DefaultItemAnimator());
-       getHelpListReq();
+
+        //spinner
+        getCategoryReq();
+        //if you want to set any action you can do in this listener
+        spinCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int position, long id) {
+
+                mCatId = catId.get(position);
+                item = String.valueOf(arg0.getItemAtPosition(position));
+               /* Toast.makeText(getActivity(), ""+item, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+mCatId, Toast.LENGTH_SHORT).show();
+*/
+                //get location
+
+                MainActivity activity =(MainActivity)getActivity();
+                latitude=activity.mylatitude();
+                longitude=activity.mylongitude();
+             /*   Toast.makeText(getActivity(), ""+latitude, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+longitude, Toast.LENGTH_SHORT).show();
+*/
+
+                getHelpListReq();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+
+
+
+
 
 
         return view;
@@ -112,12 +164,15 @@ public class AllHelpFragment extends Fragment {
     }
 
     private void getHelpListReq() {
-        Call<GethelplistResponse> call = serviceInterface.getHelpLitstItem(convertPlainString(state));
+        Call<GethelplistResponse> call = serviceInterface.getHelpLitstItem(convertPlainString(mCatId),convertPlainString(latitude),
+                convertPlainString(longitude));
         call.enqueue(new Callback<GethelplistResponse>() {
             @Override
             public void onResponse(Call<GethelplistResponse> call, Response<GethelplistResponse> response) {
+                replaceRecyler.removeAllViews();
                 if (response.body().getStatus().equals(1)) {
                     pBar.setVisibility(View.GONE);
+                    mHelpDetailsList.clear();
                     for (int i = 0; i < response.body().getInformation().size(); i++) {
                         mHelpDetailsList.add(new GetHelpListModel(response.body().getInformation().get(i).getHelpTitle(),
                                 String.valueOf(response.body().getInformation().get(i).getTimestamp()),
@@ -159,6 +214,38 @@ public class AllHelpFragment extends Fragment {
     public RequestBody convertPlainString(String data) {
         RequestBody plainString = RequestBody.create(MediaType.parse("text/plain"), data);
         return plainString;
+    }
+
+
+    private void getCategoryReq() {
+        String securecode = "1234";
+        Call<GetCategoryResponse> call = serviceInterface.getCategory(convertPlainString(securecode));
+        call.enqueue(new Callback<GetCategoryResponse>() {
+            @Override
+            public void onResponse(Call<GetCategoryResponse> call, Response<GetCategoryResponse> response) {
+                if (response.body() != null && response.body().getStatus().equals(1)) {
+                    for (int i = 0; i < response.body().getInformation().size(); i++) {
+                        catId.add(String.valueOf(response.body().getInformation().get(i).getCategoryId()));
+                        catName.add(response.body().getInformation().get(i).getCategoryName());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                            android.R.layout.simple_spinner_item, catName);//setting the country_array to spinner
+                    // string value
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinCategory.setAdapter(adapter);
+                } else {
+                    Toast.makeText(getActivity(), "not inserted", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCategoryResponse> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
 }

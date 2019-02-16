@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.softcodeinfotech.helpapp.ui.HelpDeatailDescActivity;
 import com.softcodeinfotech.helpapp.ui.IndividualHelpActivity;
 import com.softcodeinfotech.helpapp.R;
 import com.softcodeinfotech.helpapp.model.GetHelpListModel;
@@ -78,13 +79,30 @@ public class GetHelpListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             @Override
             public void onClick(View view) {
 
-                String user_id = getHelpListModel.getUserId();
+               /* String user_id = getHelpListModel.getUserId();
                 Intent intent = new Intent(mContext,IndividualHelpActivity.class);
                 intent.putExtra("user_id", user_id);
                  mContext.startActivity(intent);
-
+*/
                // Toast.makeText(mContext, "clicked", Toast.LENGTH_SHORT).show();
               //  Toast.makeText(mContext, ""+user_id, Toast.LENGTH_SHORT).show();
+
+                //call details activity to set data
+                String detail_userid = getHelpListModel.getUserId();
+                String detail_image =getHelpListModel.getImage();
+                String detail_title = getHelpListModel.getHelpTitle();
+                String detail_desc =getHelpListModel.getHelpDescription();
+                String detail_address= getHelpListModel.getAddress();
+                String detail_posttime=getHelpListModel.getHelpTimeStamp();
+                Intent detailsIntent = new Intent(mContext,HelpDeatailDescActivity.class);
+
+                detailsIntent.putExtra("detail_userid",detail_userid);
+                detailsIntent.putExtra("detail_image",detail_image);
+                detailsIntent.putExtra("detail_title",detail_title);
+                detailsIntent.putExtra("detail_desc",detail_desc);
+                detailsIntent.putExtra("detail_address",detail_address);
+                detailsIntent.putExtra("detail_posttime",detail_posttime);
+                                 mContext.startActivity(detailsIntent);
 
             }
         });

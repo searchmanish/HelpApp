@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +77,10 @@ public class SignupActivity extends AppCompatActivity {
     String val;
     ProgressBar pBar;
 
-    //gmail facebook Integration
+
+    String name,pass;
+
+   /* //gmail facebook Integration
 
     ImageView gmail;
     LoginButton facebook;
@@ -87,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
     //Google SignIn
     GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-    CallbackManager callbackManager;
+    CallbackManager callbackManager;*/
 
     Retrofit retrofit;
 
@@ -105,6 +110,22 @@ public class SignupActivity extends AppCompatActivity {
 
         setUpWidget();
         getdata();
+
+        Intent intent = getIntent();
+       name= intent.getStringExtra("username");
+       pass=intent.getStringExtra("password");
+
+       if (name !=null && pass !=null)
+       {
+           String mypass=pass.substring(0,8);
+           password.setInputType(InputType.TYPE_CLASS_TEXT);
+           username.setText(name);
+           password.setText(mypass);
+
+       }
+
+
+
 
         pBar.setVisibility(View.GONE);
 
@@ -173,7 +194,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
 
-        // Configure Google Sign In
+       /* // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -229,10 +250,10 @@ public class SignupActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
 
             }
-        });
+        });*/
     }
 
-    private void displayUserInfo(JSONObject object) {
+   /* private void displayUserInfo(JSONObject object) {
         String first_name = "";
         String last_name = "", email = "", id = "";
 
@@ -250,7 +271,7 @@ public class SignupActivity extends AppCompatActivity {
         Toast.makeText(SignupActivity.this, "" + email, Toast.LENGTH_SHORT).show();
 
     }
-
+*/
 
     private void getdata() {
         mMobile = mobile.getText().toString().trim();
@@ -310,9 +331,9 @@ public class SignupActivity extends AppCompatActivity {
         pBar = findViewById(R.id.progressBar2);
         back = findViewById(R.id.imageButton3);
 
-        //
+      /*  //
         gmail = findViewById(R.id.imageView7);
-        facebook = findViewById(R.id.login_button);
+        facebook = findViewById(R.id.login_button);*/
     }
 
     // convert aa param into plain text
@@ -322,7 +343,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    //gmail
+   /* //gmail
 
     //firebase signin
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -402,7 +423,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
         }
-    }
+    }*/
 
 
 }

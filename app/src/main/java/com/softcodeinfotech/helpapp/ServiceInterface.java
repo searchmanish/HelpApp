@@ -149,9 +149,11 @@ public interface ServiceInterface {
 
     //get help List on main Activity
     @Multipart
-    @POST("helpapp/get_helplist.php")
+    @POST("helpapp/get_help_list.php")
     Call<GethelplistResponse> getHelpLitstItem(
-            @Part("state") RequestBody state
+            @Part("catid") RequestBody catid,
+            @Part("latitude") RequestBody latitude,
+            @Part("longitude") RequestBody longitude
     );
 
     //get all helper List

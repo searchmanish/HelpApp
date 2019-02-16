@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     {
                         latitude=String.valueOf(location.getLatitude());
                         longitude=String.valueOf(location.getLongitude());
+                        //
+                        mylatitude();
+                        mylongitude();
                         Toast.makeText(MainActivity.this, "latitude="+latitude+"longitude="+longitude, Toast.LENGTH_SHORT).show();
                     }
 
@@ -255,6 +258,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //to pass location to fragment methods call
+            mylatitude();
+            mylongitude();
 
         FragmentManager fm1 = getSupportFragmentManager();
         FragmentTransaction ft1 = fm1.beginTransaction();
@@ -282,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                         FragmentManager fm1 = getSupportFragmentManager();
                         FragmentTransaction ft1 = fm1.beginTransaction();
                         AllHelpFragment allHelpFragment=new AllHelpFragment();
+
                         ft1.replace(R.id.replace, allHelpFragment);
                         ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                         //ft.addToBackStack(null);
@@ -444,5 +451,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+
+    public String mylatitude()
+    {
+       return latitude;
+    }
+
+    public String mylongitude()
+    {
+        return longitude;
     }
 }
