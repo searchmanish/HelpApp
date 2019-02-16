@@ -42,6 +42,9 @@ public class HelpDeatailDescActivity extends AppCompatActivity {
     Button call,chat,profile;
     String mMobile;
 
+    String number;
+    String whatsappurl;
+
 
     ProgressBar pBar;
 
@@ -117,8 +120,12 @@ public class HelpDeatailDescActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                    String number="91"+""+mMobile;
-                    openWhatsappContact(number);
+                     number=""+91+""+mMobile;
+                     whatsappurl=""+"https://api.whatsapp.com/send?phone=+"+""+number+""+"&text=I'm%20interested%20to%20help%20please%20contact%20me%20source%20elfee\"";
+               // "https://api.whatsapp.com/send?phone=+919911938591&text=I'm%20interested%20to%20help%20please%20contact%20me%20source%20elfee";
+
+                openWhatsappContact(number);
+                Toast.makeText(HelpDeatailDescActivity.this, ""+whatsappurl, Toast.LENGTH_SHORT).show();
 
 
             }
@@ -197,9 +204,18 @@ public class HelpDeatailDescActivity extends AppCompatActivity {
 
     //whatsapp
     void openWhatsappContact(String number) {
-        Uri uri = Uri.parse("smsto:" + number);
+        //9911938591
+      /*  Uri uri = Uri.parse("smsto:" + "9911938591");
         Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+        i.putExtra("sms_body", "abccd");
         i.setPackage("com.whatsapp");
-        startActivity(Intent.createChooser(i, ""));
+        startActivity(i);*/
+
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse(whatsappurl
+                       // "https://api.whatsapp.com/send?phone=+919911938591&text=I'm%20interested%20to%20help%20please%20contact%20me%20source%20elfee"
+                       // "https://api.whatsapp.com/send?phone=+number&text=I'm%20interested%20to%20help%20please%20contact%20me%20source%20elfee"
+
+                )));
     }
 }
