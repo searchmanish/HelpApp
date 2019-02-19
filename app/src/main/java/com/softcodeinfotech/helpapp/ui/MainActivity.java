@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         //
                         mylatitude();
                         mylongitude();
-                        Toast.makeText(MainActivity.this, "latitude="+latitude+"longitude="+longitude, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "latitude="+latitude+"longitude="+longitude, Toast.LENGTH_SHORT).show();
                     }
 
                 }

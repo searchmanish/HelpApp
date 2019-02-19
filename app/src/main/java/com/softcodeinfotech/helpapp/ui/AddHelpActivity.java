@@ -90,7 +90,7 @@ public class AddHelpActivity extends AppCompatActivity {
         lati = intent.getStringExtra("lati");
         longi = intent.getStringExtra("longi");
 
-        Toast.makeText(this, "" + lati + "" + longi, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "" + lati + "" + longi, Toast.LENGTH_SHORT).show();
         getAddress(AddHelpActivity.this, Double.parseDouble(lati), Double.parseDouble(longi));
         currentAddress.setText(address);
         mCurrentAddress = currentAddress.getText().toString().trim();
@@ -282,7 +282,7 @@ public class AddHelpActivity extends AppCompatActivity {
                 Log.d(TAG, "getAddress:  postalCode" + postalCode);
                 Log.d(TAG, "getAddress:  knownName" + knownName);
 
-                Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
 
 
             }

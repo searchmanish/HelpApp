@@ -1,5 +1,6 @@
 package com.softcodeinfotech.helpapp.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -83,7 +84,13 @@ public class HistoryActivity extends AppCompatActivity {
         recycler_helpHistory.setAdapter(historyAdapter);
         recycler_helpHistory.setItemAnimator(new DefaultItemAnimator());
 
-        getHelpHistory();
+        if (SharePreferenceUtils.getInstance().getString(Constant.USER_id).equalsIgnoreCase("")) {
+           pBar.setVisibility(View.GONE);
+            Toast.makeText(this, "No History Found", Toast.LENGTH_LONG).show();
+        } else {
+            getHelpHistory();
+        }
+
 
 
         back.setOnClickListener(new View.OnClickListener() {
