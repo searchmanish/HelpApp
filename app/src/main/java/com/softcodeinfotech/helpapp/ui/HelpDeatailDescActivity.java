@@ -125,7 +125,7 @@ public class HelpDeatailDescActivity extends AppCompatActivity {
                // "https://api.whatsapp.com/send?phone=+919911938591&text=I'm%20interested%20to%20help%20please%20contact%20me%20source%20elfee";
 
                 openWhatsappContact(number);
-                Toast.makeText(HelpDeatailDescActivity.this, ""+whatsappurl, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(HelpDeatailDescActivity.this, ""+whatsappurl, Toast.LENGTH_SHORT).show();
 
 
             }
